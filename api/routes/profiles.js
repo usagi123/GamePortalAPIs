@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express();
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const Profile = require('../models/profiles');
 const Game = require('../models/games');
@@ -16,7 +17,7 @@ router.get('/', (req, res, next) => {
                     return {
                         _id: doc._id,
                         fullName: doc.fullName,
-                        recentLogin: doc.recentLogin,
+                        recentLogin: moment(doc.recentLogin).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
                         profileCoins: doc.profileCoins,
                         profileStar: doc.profileStar,
                         gameId: doc.gameId,
@@ -44,7 +45,7 @@ router.post('/', (req, res, next) => {
             const profile = new Profile({
                 _id: new mongoose.Types.ObjectId(),
                 fullName: req.body.fullName,
-                recentLogin: req.body.recentLogin,
+                recentLogin: moment(req.body.recentLogin, 'HH:mm:ss DD-MM-YYYY Asia/Ho_Chi_Minh'),
                 profileCoins: req.body.profileCoins,
                 profileStar: req.body.profileStar,
                 gameId: req.body.gameId,
@@ -59,7 +60,7 @@ router.post('/', (req, res, next) => {
                 createdProfile: {
                     _id: result._id,
                     fullName: result.fullName,
-                    recentLogin: result.recentLogin,
+                    recentLogin: moment(result.recentLogin).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
                     profileCoins: result.profileCoins,
                     profileStar: result.profileStar,
                     gameId: result.gameId,
@@ -86,7 +87,7 @@ router.get('/:profileId', (req, res, next) => {
                 profile: {
                     _id: doc._id,
                     fullName: doc.fullName,
-                    recentLogin: doc.recentLogin,
+                    recentLogin: moment(doc.recentLogin).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
                     profileCoins: doc.profileCoins,
                     profileStar: doc.profileStar,
                     gameId: doc.gameId,
@@ -98,6 +99,40 @@ router.get('/:profileId', (req, res, next) => {
             res.status(500).json({
                 error: err
             })
+        })
+});
+
+router.get('/profileforspecificgame/:gameId/:profileId', (req, res, next) => {
+    const GameId = req.params.gameId;
+    const ProfileId = req.params.profileId;
+    Game.findById(GameId)
+        .then(game => {
+            if(!game) {
+                return res.status(404).json({
+                    message: "GameId not found"
+                })
+            }
+            Profile
+                .findById(ProfileId)
+                .then(profile => {
+                    if(!profile) {
+                        return res.status(404).json({
+                            message: "ProfileId not found"
+                        })
+                    }
+                    Profile
+                        .find({gameId: GameId, _id: ProfileId})
+                        .exec()
+                        .then(doc => {
+                            console.log(doc)
+                            res.status(200).json({doc})
+                        })
+                        .catch(err => {
+                            res.status(500).json({
+                                error: err
+                            })
+                        })
+                })
         })
 });
 
