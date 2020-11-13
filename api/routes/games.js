@@ -87,11 +87,11 @@ router.get('/:gameId', (req, res, next) => {
 router.patch('/:gameId', (req, res, next) => {
     const id = req.params.gameId;
     const updateOps = {};
-    for (const ops  of req.body) {
+    for (const ops of req.body) {
         updateOps[ops.propName] = ops.value;
     }
     Game
-        .update(
+        .updateOne(
             {_id: id},
             {$set: updateOps}
         )

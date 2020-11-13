@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const productRoutes = require('./api/routes/products');
 const gameRoutes = require('./api/routes/games');
+const eventRoutes = require('./api/routes/events');
 
 mongoose.connect('mongodb+srv://' + 
     process.env.MONGO_ATLAS_USERNAME + ':' + 
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 
 app.use('/products', productRoutes);
 app.use('/games', gameRoutes);
+app.use('/events', eventRoutes);
 
 app.use((req, res, next) => {
     const error = new Error("Not found");
