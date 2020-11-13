@@ -147,4 +147,4 @@ router.delete('/:eventId', (req, res, next) => {
 });
 
 
-module.exports = router
+module.exports = router;
