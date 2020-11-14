@@ -18,8 +18,8 @@ router.get('/', (req, res, next) => {
                     return {
                         _id: doc._id,
                         title: doc.title,
-                        eventStart: moment.unix(doc.eventStart).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
-                        eventEnd: moment.unix(doc.eventEnd).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
+                        eventStart: doc.eventStart,
+                        eventEnd: doc.eventEnd,
                         starReward: doc.starReward,
                         gameId: doc.gameId,
                     }
@@ -46,8 +46,8 @@ router.post('/', (req, res, next) => {
             const event = new Event({
                 _id: new mongoose.Types.ObjectId(),
                 title: req.body.title,
-                eventStart: moment(req.body.eventStart, 'HH:mm:ss DD-MM-YYYY Asia/Ho_Chi_Minh').unix(),
-                eventEnd: moment(req.body.eventEnd, 'HH:mm:ss DD-MM-YYYY Asia/Ho_Chi_Minh').unix(),
+                eventStart: moment(req.body.eventStart, 'HH:mm:ss DD-MM-YYYY').unix(),
+                eventEnd: moment(req.body.eventEnd, 'HH:mm:ss DD-MM-YYYY').unix(),
                 starReward: req.body.starReward,
                 gameId: req.body.gameId,
             })
@@ -61,8 +61,8 @@ router.post('/', (req, res, next) => {
                 createdEvent: {
                     _id: result._id,
                     title: result.title,
-                    eventStart: moment.unix(result.eventStart).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
-                    eventEnd: moment.unix(result.eventEnd).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
+                    eventStart: result.eventStart,
+                    eventEnd: result.eventEnd,
                     starReward: result.starReward,
                     gameId: result.gameId,
                 }
@@ -81,7 +81,7 @@ router.post('/', (req, res, next) => {
 // https://stackoverflow.com/questions/37571722/mongoose-date-comparison
 router.get('/onegameallevents/:gameId', (req, res, next) => {
     const id = req.params.gameId;
-    const currentTime = moment('07:00:00 10-11-2020', 'HH:mm:ss DD-MM-YYYY Asia/Ho_Chi_Minh').unix();
+    const currentTime = moment().unix();
     console.log(currentTime);
     console.log(moment.unix(currentTime).format('HH:mm:ss DD-MM-YYYY'));
     Game.findById(id)
@@ -118,8 +118,8 @@ router.get('/onegameallevents/:gameId', (req, res, next) => {
                             return {
                                 _id: doc._id,
                                 title: doc.title,
-                                eventStart: moment.unix(doc.eventStart).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
-                                eventEnd: moment.unix(doc.eventEnd).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
+                                eventStart: doc.eventStart,
+                                eventEnd: doc.eventEnd,
                                 starReward: doc.starReward,
                                 gameId: doc.gameId,
                             }
@@ -148,8 +148,8 @@ router.get('/:eventId', (req, res, next) => {
                 event: {
                     _id: doc._id,
                     title: doc.title,
-                    eventStart: moment.unix(doc.eventStart).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
-                    eventEnd: moment.unix(doc.eventEnd).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
+                    eventStart: doc.eventStart,
+                    eventEnd: doc.eventEnd,
                     starReward: doc.starReward,
                     gameId: doc.gameId,
                 }
@@ -207,6 +207,8 @@ router.delete('/:eventId', (req, res, next) => {
             })
         })
 });
+
+//Provide an API to get rewards from players when the event completes
 
 
 module.exports = router;

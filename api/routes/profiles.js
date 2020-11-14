@@ -17,9 +17,9 @@ router.get('/', (req, res, next) => {
                     return {
                         _id: doc._id,
                         fullName: doc.fullName,
-                        recentLogin: moment(doc.recentLogin).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
+                        recentLogin: doc.recentLogin,
                         profileCoins: doc.profileCoins,
-                        profileStar: doc.profileStar,
+                        profileStars: doc.profileStars,
                         gameId: doc.gameId,
                     }
                 })
@@ -45,9 +45,9 @@ router.post('/', (req, res, next) => {
             const profile = new Profile({
                 _id: new mongoose.Types.ObjectId(),
                 fullName: req.body.fullName,
-                recentLogin: moment(req.body.recentLogin, 'HH:mm:ss DD-MM-YYYY Asia/Ho_Chi_Minh'),
+                recentLogin: moment(req.body.recentLogin, 'HH:mm:ss DD-MM-YYYY').unix(),
                 profileCoins: req.body.profileCoins,
-                profileStar: req.body.profileStar,
+                profileStars: req.body.profileStars,
                 gameId: req.body.gameId,
             })
             return profile
@@ -60,9 +60,9 @@ router.post('/', (req, res, next) => {
                 createdProfile: {
                     _id: result._id,
                     fullName: result.fullName,
-                    recentLogin: moment(result.recentLogin).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
+                    recentLogin: result.recentLogin,
                     profileCoins: result.profileCoins,
-                    profileStar: result.profileStar,
+                    profileStars: result.profileStars,
                     gameId: result.gameId,
                 }
             })
@@ -79,7 +79,7 @@ router.get('/:profileId', (req, res, next) => {
     const id = req.params.profileId;
     Profile
         .findById(id)
-        .select('_id fullName recentLogin profileCoin profileStar gameId')
+        .select('_id fullName recentLogin profileCoin profileStars gameId')
         .exec()
         .then(doc => {
             console.log("From db", doc);
@@ -87,9 +87,9 @@ router.get('/:profileId', (req, res, next) => {
                 profile: {
                     _id: doc._id,
                     fullName: doc.fullName,
-                    recentLogin: moment(doc.recentLogin).format('HH:mm:ss DD-MM-YYYY') + ' UTC+07:00',
+                    recentLogin: doc.recentLogin,
                     profileCoins: doc.profileCoins,
-                    profileStar: doc.profileStar,
+                    profileStars: doc.profileStars,
                     gameId: doc.gameId,
                 }
             })
@@ -102,6 +102,7 @@ router.get('/:profileId', (req, res, next) => {
         })
 });
 
+//Custom API to GET details of a specific PLAYER for a specific GAME
 router.get('/profileforspecificgame/:gameId/:profileId', (req, res, next) => {
     const GameId = req.params.gameId;
     const ProfileId = req.params.profileId;
@@ -122,6 +123,7 @@ router.get('/profileforspecificgame/:gameId/:profileId', (req, res, next) => {
                     }
                     Profile
                         .find({gameId: GameId, _id: ProfileId})
+                        .select('_id fullName recentLogin profileCoins profileStars gameId')
                         .exec()
                         .then(doc => {
                             console.log(doc)
@@ -133,6 +135,74 @@ router.get('/profileforspecificgame/:gameId/:profileId', (req, res, next) => {
                             })
                         })
                 })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                        error: err,
+                    })
+                })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err,
+            })
+        })
+});
+
+//Custom API to PATCH details of a specific PLAYER for a specific GAME
+router.patch('/profileforspecificgame/:gameId/:profileId', (req, res, next) => {
+    const GameId = req.params.gameId;
+    const ProfileId = req.params.profileId;
+    const updateOps = {};
+    Game.findById(GameId)
+        .then(game => {
+            if(!game) {
+                return res.status(404).json({
+                    message: "GameId not found",
+                })
+            }
+            Profile
+                .findById(ProfileId)
+                .then(profile => {
+                    if(!profile) {
+                        return res.status(404).json({
+                            message: "ProfileId not found",
+                        })
+                    }
+                    for (const ops of req.body) {
+                        updateOps[ops.propName] = ops.value;
+                    }
+                    Profile
+                        .updateOne(
+                            {_id: ProfileId},
+                            {$set: updateOps}
+                        )
+                        .exec()
+                        .then(result =>{
+                            res.status(200).json({
+                                message: "Profile info updated",
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            })
+                        })
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
         })
 });
 
