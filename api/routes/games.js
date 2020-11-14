@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express();
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const Game = require('../models/games');
+const Event = require('../models/events');
 
 router.get('/', (req, res, next) => {
     Game
@@ -55,31 +57,6 @@ router.post('/', (req, res, next) => {
             console.log(err);
             res.status(500).json({
                 error: err,
-            })
-        })
-});
-
-router.get('/:gameId', (req, res, next) => {
-    const id = req.params.gameId;
-    Game
-        .findById(id)
-        .select('_id title firstLoginBonusCoin firstLoginBonusStar')
-        .exec()
-        .then(doc => {
-            console.log("From db", doc);
-            res.status(200).json({
-                game: {
-                    _id: doc._id,
-                    title: doc.title,
-                    firstLoginBonusCoin: doc.firstLoginBonusCoin,
-                    firstLoginBonusStar: doc.firstLoginBonusStar,
-                }
-            })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
             })
         })
 });
