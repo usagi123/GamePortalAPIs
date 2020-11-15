@@ -5,6 +5,7 @@ const moment = require('moment');
 
 const Profile = require('../models/profiles');
 const Game = require('../models/games');
+const Event = require('../models/events');
 
 router.get('/', (req, res, next) => {
     Profile
@@ -79,7 +80,7 @@ router.get('/:profileId', (req, res, next) => {
     const id = req.params.profileId;
     Profile
         .findById(id)
-        .select('_id fullName recentLogin profileCoin profileStars gameId')
+        .select('_id fullName recentLogin profileCoin profileStars gameId') //('-__v')
         .exec()
         .then(doc => {
             console.log("From db", doc);
@@ -182,6 +183,57 @@ router.patch('/profileforspecificgame/:gameId/:profileId', (req, res, next) => {
                         .then(result =>{
                             res.status(200).json({
                                 message: "Profile info updated",
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            })
+                        })
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                        error: err
+                    })
+                })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
+});
+
+//Provide an API to get rewards from players when the event completes
+router.patch('/getEventRewards/:profileId/:eventId', (req, res, next) => {
+    const profileId = req.params.profileId;
+    const eventId = req.params.eventId;
+    var profileCurrentStars = 0;
+    var profileUpdatedStars = 0;
+    var eventRewardStars = 0;
+    Event
+        .findById(eventId)
+        .exec()
+        .then(doc => {
+            eventRewardStars = doc.starReward;
+            Profile
+                .findById(profileId)
+                .exec()
+                .then(doc => {
+                    profileCurrentStars = doc.profileStars;
+                    profileUpdatedStars = profileCurrentStars + eventRewardStars;
+                    Profile
+                        .updateOne(
+                            {_id: profileId},
+                            {$set: {profileStars: profileUpdatedStars}}
+                        )
+                        .exec()
+                        .then(result => {
+                            res.status(200).json({
+                                message: "Added event reward for this profile",
                             })
                         })
                         .catch(err => {

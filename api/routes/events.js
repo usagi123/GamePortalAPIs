@@ -76,7 +76,7 @@ router.post('/', (req, res, next) => {
         })
 });
 
-//API to know all the game information and upcoming events
+//Provide an API to know all the game information and upcoming events
 //WIP - https://stackoverflow.com/questions/26475013/date-comparison-with-mongoose/26475576
 // https://stackoverflow.com/questions/37571722/mongoose-date-comparison
 router.get('/onegameallevents/:gameId', (req, res, next) => {
@@ -93,8 +93,8 @@ router.get('/onegameallevents/:gameId', (req, res, next) => {
             }
             Event
                 //logic (currentT <= eventStart OR (eventStart <= currentT AND currentT <= eventEnd))
-                // {eventStart: {$gte: currentTime}} OR [{eventStart: {$lte: currentTime}}, {eventEnd: {$gte: currentTime}}]
-                //{$or:[{eventStart: {$gte: currentTime}},[{eventStart: {$lte: currentTime}}, {eventEnd: {$gte: currentTime}}]]}
+                // {eventStart: {$gte: currentTime}} OR [{eventStart: {$lte: currentTime}} AND {eventEnd: {$gte: currentTime}}]
+                //{$or:[{eventStart: {$gte: currentTime}},[{eventStart: {$lte: currentTime}} AND {eventEnd: {$gte: currentTime}}]]}
                 .find({
                     $and: [
                         {gameId: id},
@@ -207,8 +207,6 @@ router.delete('/:eventId', (req, res, next) => {
             })
         })
 });
-
-//Provide an API to get rewards from players when the event completes
 
 
 module.exports = router;
