@@ -1,6 +1,7 @@
 {
     "env": {
         "MONGO_ATLAS_USERNAME": "alohabanana",
-        "MONGO_ATLAS_PW": "CFckzCb63Xy8zi2"
+        "MONGO_ATLAS_PW": "CFckzCb63Xy8zi2",
+        "MONGO_ATLAS_CONNECTION": "mongodb+srv://alohabanana:CFckzCb63Xy8zi2@cluster0.lcffp.mongodb.net/test?retryWrites=true&w=majority"
     }
 }

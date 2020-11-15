@@ -1,110 +1,17 @@
 const express = require('express');
 const router = express();
-const mongoose = require('mongoose');
-const moment = require('moment');
 
-const Game = require('../models/games');
-const Event = require('../models/events');
+const GamesController = require('../controllers/games');
 
-router.get('/', (req, res, next) => {
-    Game
-        .find()
-        .exec()
-        .then(docs => {
-            const response = {
-                count: docs.length,
-                games: docs.map(doc => {
-                    return {
-                        _id: doc._id,
-                        title: doc.title,
-                        firstLoginBonusCoin: doc.firstLoginBonusCoin,
-                        firstLoginBonusStar: doc.firstLoginBonusStar,
-                    }
-                })
-            }
-            res.status(200).json(response);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/', GamesController.games_get_all);
 
-router.post('/', (req, res, next) => {
-    const game = new Game({
-        _id: new mongoose.Types.ObjectId(),
-        title: req.body.title,
-        firstLoginBonusCoin: req.body.firstLoginBonusCoin,
-        firstLoginBonusStar: req.body.firstLoginBonusStar,
-    })
-    game
-        .save()
-        .then(result => {
-            console.log(result);
-            res.status(201).json({
-                message: "Product created successfully",
-                createdGame: {
-                    _id: result._id,
-                    title: result.title,
-                    firstLoginBonusCoin: result.firstLoginBonusCoin,
-                    firstLoginBonusStar: result.firstLoginBonusStar,
-                }
-            })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err,
-            })
-        })
-});
+router.post('/', GamesController.game_create);
 
-router.patch('/:gameId', (req, res, next) => {
-    const id = req.params.gameId;
-    const updateOps = {};
-    for (const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
-    }
-    Game
-        .updateOne(
-            {_id: id},
-            {$set: updateOps}
-        )
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: "Game info updated",
-            })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.get('/:gameId', GamesController.game_get_by_Id);
 
-router.delete('/:gameId', (req, res, next) => {
-    const id = req.params.gameId;
-    Game
-        .deleteOne(
-            {_id: id}
-        )
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: "Game deleted"
-            })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+router.patch('/:gameId', GamesController.game_update_by_Id);
+
+router.delete('/:gameId', GamesController.game_delete);
 
 
 module.exports = router;

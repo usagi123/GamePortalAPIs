@@ -4,15 +4,11 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const productRoutes = require('./api/routes/products');
 const gameRoutes = require('./api/routes/games');
 const eventRoutes = require('./api/routes/events');
 const profileRoutes = require('./api/routes/profiles');
 
-mongoose.connect('mongodb+srv://' + 
-    process.env.MONGO_ATLAS_USERNAME + ':' + 
-    process.env.MONGO_ATLAS_PW + 
-    '@cluster0.lcffp.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect(process.env.MONGO_ATLAS_CONNECTION,
     {
         useNewUrlParser: true, 
         useUnifiedTopology: true
@@ -33,7 +29,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/products', productRoutes);
 app.use('/games', gameRoutes);
 app.use('/events', eventRoutes);
 app.use('/profiles', profileRoutes);
