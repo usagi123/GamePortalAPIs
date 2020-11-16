@@ -12,7 +12,7 @@ Access at `localhost:3000`
 
 Else, the API is running at `https://gameportalapi.herokuapp.com`
 
-APIs will return JSON as a response.
+API will return JSON as a response.
 
 The database is running at mongodb atlas.
 
