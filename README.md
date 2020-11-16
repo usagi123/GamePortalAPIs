@@ -14,6 +14,8 @@ Else, the API is running at `https://gameportalapi.herokuapp.com`
 
 APIs will return JSON as a response.
 
+The database is running at mongodb atlas.
+
 ---
 
 **Managing Game Entities** `/games`
@@ -85,6 +87,8 @@ Request type: `GET`
 
 **List all current and upcoming events from one game**
 
+An API to know all the game information and upcoming events.
+
 Request URL: `https://gameportalapi.herokuapp.com/events/onegameallevents/:gameId`
 
 Request type: `GET`
@@ -105,7 +109,7 @@ Request body:
     "gameId": "String"
 }
 ```
-The `eventStart` and `eventEnd` fields are input as HH:mm:ss DD-MM-YYYY UTC +0 format but keep as unix time stamp in the system
+The `eventStart` and `eventEnd` fields are input as HH:mm:ss DD-MM-YYYY UTC +0 format but keep as unix time stamp in the system.
 
 **Edit event details**
 
@@ -147,6 +151,8 @@ Request type: `GET`
 
 **List one profile informations for a specific game**
 
+An API to get a player’s information in a specific game.
+
 Request URL: `https://gameportalapi.herokuapp.com/profiles/profileforspecificgame/:gameId/:profileId`
 
 Request type: `GET`
@@ -167,7 +173,7 @@ Request body:
     "gameId": ["String","String","..."]
 }
 ```
-The `recentLogin` field is input as HH:mm:ss DD-MM-YYYY UTC +0 format but keeps as unix time stamp in the system
+The `recentLogin` field is input as HH:mm:ss DD-MM-YYYY UTC +0 format but keeps as unix time stamp in the system.
 
 
 **Edit a profile detail**
@@ -188,6 +194,8 @@ Request body:
 
 **Edit a profile detail from a specific game**
 
+An API to update a player’s information in a specific game. It's the same as get a player's info in a specific game, just with different request method.
+
 Request URL: `https://gameportalapi.herokuapp.com/profileforspecificgame/:gameId/:profileId`
 
 Request type: `PATCH`
@@ -203,6 +211,8 @@ Request body:
 ```
 
 **Player get reward from an event**
+
+An API to get rewards from players when the event completes.
 
 Request URL: `https://gameportalapi.herokuapp.com/getEventRewards/:profileId/:eventId`
 
