@@ -2,9 +2,15 @@
 
 These are APIs for a game portal.
 
+If you want to run locally
+
 Run `npm install` to install all required packages
 
 Run `npm start` to start running.
+
+Access at `localhost:3000`
+
+Else, the API is running at `https://gameportalapi.herokuapp.com`
 
 APIs will return JSON as a response.
 
@@ -14,19 +20,19 @@ APIs will return JSON as a response.
 
 **List all games**
 
-Request URL: `localhost:3000/games`
+Request URL: `https://gameportalapi.herokuapp.com/games`
 
 Request type: `GET`
 
 **List one game**
 
-Request URL: `localhost:3000/games/:gameId`
+Request URL: `https://gameportalapi.herokuapp.com/games/:gameId`
 
 Request type: `GET`
 
 **Create a new game entity**
 
-Request URL: `localhost:3000/games`
+Request URL: `https://gameportalapi.herokuapp.com/games`
 
 Request type: `POST`
 
@@ -41,7 +47,7 @@ Request body:
 
 **Edit game details**
 
-Request URL: `localhost:3000/games/:gameId`
+Request URL: `https://gameportalapi.herokuapp.com/games/:gameId`
 
 Request type: `PATCH`
 
@@ -57,7 +63,7 @@ Request body:
 
 **Remove a game entity**
 
-Request URL: `localhost:3000/games/:gameId`
+Request URL: `https://gameportalapi.herokuapp.com/games/:gameId`
 
 Request type: `DELETE`
 
@@ -67,25 +73,25 @@ Request type: `DELETE`
 
 **List all events**
 
-Request URL: `localhost:3000/events`
+Request URL: `https://gameportalapi.herokuapp.com/events`
 
 Request type: `GET`
 
 **List one event**
 
-Request URL: `localhost:3000/events/:eventId`
+Request URL: `https://gameportalapi.herokuapp.com/events/:eventId`
 
 Request type: `GET`
 
 **List all current and upcoming events from one game**
 
-Request URL: `localhost:3000/events/onegameallevents/:gameId`
+Request URL: `https://gameportalapi.herokuapp.com/events/onegameallevents/:gameId`
 
 Request type: `GET`
 
 **Create a new event entity**
 
-Request URL: `localhost:3000/events`
+Request URL: `https://gameportalapi.herokuapp.com/events`
 
 Request type: `POST`
 
@@ -103,7 +109,7 @@ The `eventStart` and `eventEnd` fields are input as HH:mm:ss DD-MM-YYYY UTC +0 f
 
 **Edit event details**
 
-Request URL: `localhost:3000/events/:eventId`
+Request URL: `https://gameportalapi.herokuapp.com/events/:eventId`
 
 Request type: `PATCH`
 
@@ -119,7 +125,7 @@ Request body:
 
 **Remove a event entity**
 
-Request URL: `localhost:3000/events/:eventId`
+Request URL: `https://gameportalapi.herokuapp.com/events/:eventId`
 
 Request type: `DELETE`
 
@@ -129,25 +135,25 @@ Request type: `DELETE`
 
 **List all profiles**
 
-Request URL: `localhost:3000/profiles`
+Request URL: `https://gameportalapi.herokuapp.com/profiles`
 
 Request type: `GET`
 
 **List one profile**
 
-Request URL: `localhost:3000/profiles/:profileId`
+Request URL: `https://gameportalapi.herokuapp.com/profiles/:profileId`
 
 Request type: `GET`
 
 **List one profile informations for a specific game**
 
-Request URL: `localhost:3000/profiles/profileforspecificgame/:gameId/:profileId`
+Request URL: `https://gameportalapi.herokuapp.com/profiles/profileforspecificgame/:gameId/:profileId`
 
 Request type: `GET`
 
 **Create a new profile entity**
 
-Request URL: `localhost:3000/profiles`
+Request URL: `https://gameportalapi.herokuapp.com/profiles`
 
 Request type: `POST`
 
@@ -166,7 +172,7 @@ The `recentLogin` field is input as HH:mm:ss DD-MM-YYYY UTC +0 format but keeps 
 
 **Edit a profile detail**
 
-Request URL: `localhost:3000/profiles/:profileId`
+Request URL: `https://gameportalapi.herokuapp.com/profiles/:profileId`
 
 Request type: `PATCH`
 
@@ -182,7 +188,7 @@ Request body:
 
 **Edit a profile detail from a specific game**
 
-Request URL: `localhost:3000/profileforspecificgame/:gameId/:profileId`
+Request URL: `https://gameportalapi.herokuapp.com/profileforspecificgame/:gameId/:profileId`
 
 Request type: `PATCH`
 
@@ -198,7 +204,7 @@ Request body:
 
 **Player get reward from an event**
 
-Request URL: `localhost:3000/getEventRewards/:profileId/:eventId`
+Request URL: `https://gameportalapi.herokuapp.com/getEventRewards/:profileId/:eventId`
 
 Request type: `PATCH`
 
@@ -206,6 +212,6 @@ No request body is needed
 
 **Remove a profile entity**
 
-Request URL: `localhost:3000/profiles/:profileId`
+Request URL: `https://gameportalapi.herokuapp.com/profiles/:profileId`
 
 Request type: `DELETE`
