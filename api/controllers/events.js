@@ -161,7 +161,11 @@ exports.event_update_by_Id = (req, res, next) => {
     const id = req.params.eventId;
     const updateOps = {};
     for (const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
+        if(ops.propName === 'eventStart' || ops.propName === 'eventEnd') {
+            updateOps[ops.propName] = moment(ops.value, 'HH:mm:ss DD-MM-YYYY').unix()
+        } else {
+            updateOps[ops.propName] = ops.value;
+        }
     }
     Event
         .updateOne(

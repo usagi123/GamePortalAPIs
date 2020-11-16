@@ -170,7 +170,11 @@ exports.profile_update_by_gameId = (req, res, next) => {
                         })
                     }
                     for (const ops of req.body) {
-                        updateOps[ops.propName] = ops.value;
+                        if(ops.propName === 'recentLogin') {
+                            updateOps[ops.propName] = moment(ops.value, 'HH:mm:ss DD-MM-YYYY').unix()
+                        } else {
+                            updateOps[ops.propName] = ops.value;
+                        }
                     }
                     Profile
                         .updateOne(
@@ -260,7 +264,11 @@ exports.profile_update_by_Id = (req, res, next) => {
     const id = req.params.profileId;
     const updateOps = {};
     for (const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
+        if(ops.propName === 'recentLogin') {
+            updateOps[ops.propName] = moment(ops.value, 'HH:mm:ss DD-MM-YYYY').unix()
+        } else {
+            updateOps[ops.propName] = ops.value;
+        }
     }
     Profile
         .updateOne(

@@ -77,7 +77,7 @@ Request URL: `localhost:3000/events/:eventId`
 
 Request type: `GET`
 
-**List all events from one game**
+**List all current and upcoming events from one game**
 
 Request URL: `localhost:3000/events/onegameallevents/:gameId`
 
