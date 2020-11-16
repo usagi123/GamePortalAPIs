@@ -14,7 +14,7 @@ Else, the API is running at `https://gameportalapi.herokuapp.com`
 
 APIs will return JSON as a response.
 
-The database is running at mongodb atlas.
+The database is running at mongodb atlas. 
 
 ---
 
@@ -109,7 +109,7 @@ Request body:
     "gameId": "String"
 }
 ```
-The `eventStart` and `eventEnd` fields are input as HH:mm:ss DD-MM-YYYY UTC +0 format but keep as unix time stamp in the system.
+The `eventStart` and `eventEnd` fields are input as HH:mm:ss DD-MM-YYYY UTC +0 format but keep as Unix time stamp in the system.
 
 **Edit event details**
 
@@ -173,7 +173,7 @@ Request body:
     "gameId": ["String","String","..."]
 }
 ```
-The `recentLogin` field is input as HH:mm:ss DD-MM-YYYY UTC +0 format but keeps as unix time stamp in the system.
+The `recentLogin` field is input as HH:mm:ss DD-MM-YYYY UTC +0 format but keeps as Unix time stamp in the system.
 
 
 **Edit a profile detail**
